@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController()
 @RequestMapping("/films/category")
@@ -25,6 +26,11 @@ public class CategoryController {
     @PostMapping()
     public Category addCategory(@RequestBody Category category) {
         return categoryService.addCategory(category);
+    }
+
+    @GetMapping("/{id}")
+    public Category getCategoryById(@PathVariable long id) {
+        return categoryService.getCategoryById(id);
     }
 
 
