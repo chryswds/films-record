@@ -31,4 +31,9 @@ public class CategoryServiceImpl implements CategoryService {
         return optCategory.orElse(null);
     }
 
+    @Override
+    public void deleteCategoryById(long id) {
+        categoryRepository.deleteById(id);
+    }
+
 }
