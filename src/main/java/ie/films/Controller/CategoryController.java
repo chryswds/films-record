@@ -1,5 +1,8 @@
 package ie.films.Controller;
 
+import ie.films.Controller.Request.CategoryRequest;
+import ie.films.Controller.Response.CategoryResponse;
+import ie.films.Mapper.CategoryMapper;
 import ie.films.Model.Category;
 import ie.films.Service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +21,27 @@ public class CategoryController {
 
 
 
+
+
     @GetMapping()
-    public List<Category> getCategories() {
-        return categoryService.getCategories();
+    public List<CategoryResponse> getCategories() {
+        List<Category> categories = categoryService.getCategories();
+        return categories.stream()
+                .map(CategoryMapper::toCategoryResponse)
+                .toList();
     }
 
     @PostMapping()
-    public Category addCategory(@RequestBody Category category) {
-        return categoryService.addCategory(category);
+    public CategoryResponse addCategory(@RequestBody CategoryRequest request) {
+        Category category = CategoryMapper.toCategory(request);
+        Category savedCategory = categoryService.addCategory(category);
+        return CategoryMapper.toCategoryResponse(savedCategory);
     }
 
     @GetMapping("/{id}")
-    public Category getCategoryById(@PathVariable long id) {
-        return categoryService.getCategoryById(id);
+    public CategoryResponse getCategoryById(@PathVariable long id) {
+        Category category = categoryService.getCategoryById(id);
+        return CategoryMapper.toCategoryResponse(category);
     }
 
     @DeleteMapping("/{id}")
